@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/f507898d50.js" crossorigin="anonymous"></script> 
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+     <!-- <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p> -->
+    <header>
+        <div class="container-fluid rq-header d-flex justify-content-between align-content-center">
+            <div class="d-flex bg-light me-3">
+                <a href="/"><img src="https://media.discordapp.net/attachments/889362805713678407/982508307103236126/unknown.png" alt="" style="width: 9vw;"></a>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="p-3 px-5" style="cursor: pointer;">Information</div>
+                <div class="p-3 px-5" style="cursor: pointer; border-left: solid 2px black;" >News</div>
+                <div class="p-3 px-5" style="cursor: pointer; border-left: solid 2px black;" >Contact Us</div>
+                <div class="p-3 bg-light bg-opacity-75" style="border-left: solid 2px black;"><a href="/request" class=" px-5 py-3 text-black active">Deals</a></div>
+            </div>
+            <div class="d-flex me-5 mt-2 btn-sm btn-warning" style="height: 2.8vw;">
+                <i class="fa-solid fa-phone text-center mt-2"></i>
+                <span class="mt-2">1-876-974-5335</span>
+                <span class="ms-3 me-2 mt-2">Jamaica</span>
+                <i class="fa-solid fa-chevron-down mt-2"></i>
+            </div>
+      </div>
+    </header>
+    <div class="container d-flex justify-content-center mt-4" style="height: 40vw;">
+        <div class="req-img w-75 border-end border-4 border-primary">
+            <img src="https://www.dtraveller.com/promotions/images/Dolphincoveja-deals.jpg" alt="" style="width: 99%; height: 25.6vw;">
+            <div class="info">
+                <h2 class="text-danger">BEST DEAL!</h2>
+                <h4>YOUR NEXT FAMILY VACAY SAVING 20% OFF</h4>
+                <p>On dolphin experiences.</p>
+                <p>*Terms and conditions:</p>
+                <div class="descrip">
+                    <p style="line-height: 25px;">
+                        Get 20% OFF on your booking online or call center. <br>
+                        Discount available until June 9th, 2021. You choose the date of your program! <br>
+                        Promotion available for booking 4 days in advance. <br>
+                        Free reschedule. <br>
+                        Applicable for Royal Swim <br>
+                        Not valid in combination with any other promotion, offer, deal or package (including Memories and free infants).
+                        This promotion may change without prior notice. 
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="ms-3">
+            <div class="col-md-4 col-md-pull-7 w-100">
+                <% if (messages.error) { %>
+                    <p class="alert alert-danger"><%- messages.error %></p>
+                <% } %>
+                <% if (messages.success) { %>
+                    <p class="alert alert-success mt-4"><%- messages.success %></p>
+                <% } %> 
+                <div class="booking-form border  border-2 rounded-2" >
+                    <form style="height: 34vw;" class="form" action="/request/reserve" method="post">
+                        <div class="text-center">
+                            <h3 class="text-capitalize py-1 rounded-1" style="background-color: #00B7FF;">
+                                <p class="small mt-2"> Make your Reservation</p>
+                            </h3>
+                        </div>
+                        <div class="form-group p-3">
+                            <label class="form-label">Choose the activity</label>
+                                <select class="form-control" name="program">
+                                    <% for( let i = 0; i < req.length; i++ ) { %>
+                                        <option value="<%= req[i].id %>"><%= req[i].prog_name %></option>
+                                    <% } %>
+                                </select>
+                            <span class="select-arrow"></span>
+                        </div>
+                        <div class="row p-3">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="form-label">Schedule</label>
+                                    <input class="form-control" type="date" required="" name="scheduled">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="form-label">Time:</label>
+                                    <input class="form-control" type="time" required="" min="09:00" max="16:00" name="time">
+                                    <small class="form-hint">Hours are between 9:00 a.m - 4:00 p.m</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" p-3">
+                            <div class="form-group ">
+                                <label class="form-label">Participants</label>
+                                <select class="form-control d-flex" name="amount">
+                                    <% for( let i = 1; i < 7; i++ ) { %>
+                                        <option><%= i %> </option>
+                                    <% } %>
+                                    </select>
+                                <span class="select-arrow"></span>
+                            </div>
+                        </div>
+                        <input type="hidden" value="<%= req[0].request_date.toISOString().slice(0, 19).replace('T', ' ').split(' ')[0]; %>" name="reqDate">
+            
+                        <div class="form-btn text-center">
+                            <input type="submit" class="btn btn-primary" value="Check availability">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

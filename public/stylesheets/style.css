@@ -1,0 +1,52 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  /* padding: 50px; */
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+.rd-header {
+  background-color: #00B7FF;
+}
+
+.rq-header {
+  background-color: #00B7FF;
+  height: 4.3vw;
+}
+
+.lst_header {
+  background-color: #095F65;
+}
+
+.body-bg {
+  background-image: url(https://www.dtraveller.com/promotions/imagesDD/dolphincoveja-banner.jpg?v=1);
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 73vh;
+
+}
+
+.req-img {
+  height: 50vw;
+}
+
+.card {
+  width: 26vw !important;
+}
+
+.prog_info {
+  width: 22vw !important;
+}
+
+.pay input[type=checkbox] {
+  transform: scale(2);
+  padding: 10px;
+}
