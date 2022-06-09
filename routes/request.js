@@ -26,8 +26,6 @@ router.post('/reserve', (req,res) => {
 
   conn.query('INSERT INTO dolphin_cove.program_request SET ?', data, (err, results) => {
     if(err) {
-      console.log(data)
-      console.log(err)
       req.flash('error', err);
       res.redirect('/request');
     } else {
@@ -53,7 +51,6 @@ router.get('/complete_request', (req, res) => {
         request: results[0]
       })
     }
-    console.log(results)
   });
 });
 
