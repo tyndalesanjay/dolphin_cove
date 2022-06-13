@@ -284,6 +284,35 @@ router.get('/delete/:id', (req, res) => {
     }
 });
 
+/* ***************************************************************** */
+// View Reserve
+router.get('/view_reservation', (req, res) => {
+    
+    let sql = 'SELECT *, ad.id AS admin_id FROM dolphin_cove.admin ad, dolphin_cove.role rle WHERE ad.role_id = rle.id ORDER BY ad.id'
+    if (req.session.loggedin === true && req.session.role === 'SAdmin') {
+        conn.query(sql, (err, results) => {
+            if (err) {
+                res.render('super_admin/admin_views/view_reserves',
+                {
+                    title: 'Reservations',
+                    reserves: '',
+                    my_session : req.session
+                });
+            }else {
+                res.render('super_admin/admin_views/view_reserves',
+                {
+                    title: 'Reservations',
+                    reserves: results,
+                    my_session : req.session
+                });
+            }
+        });
+    }else {
+        req.flash('error', 'Not SuperAdmin')
+        res.redirect('/login/dolphin_cove_login')
+    }
+});
+
 
 // dolphin_cove.tour_company
 module.exports = router;

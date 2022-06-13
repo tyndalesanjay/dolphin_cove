@@ -26,7 +26,8 @@ router.post('/reserve', (req,res) => {
 
   conn.query('INSERT INTO dolphin_cove.program_request SET ?', data, (err, results) => {
     if(err) {
-      req.flash('error', err);
+      console.log(err)
+      req.flash('error', 'error');
       res.redirect('/request');
     } else {
       req.flash('success', 'Your request was made!!');
@@ -42,7 +43,7 @@ router.get('/complete_request', (req, res) => {
             ORDER BY program_request.id DESC
             LIMIT 1 ;`, (err, results) => {
     if(err) {
-      console.log(err);
+      console.log(err)
       req.flash('error', 'Please try making your request again');
       res.redirect('/request')
     } else {
@@ -55,19 +56,20 @@ router.get('/complete_request', (req, res) => {
 });
 
 // Post to reservations
-router.post('/reserve', (req, res) => {
+router.post('/complete', (req, res) => {
   var data = {
     request_id : req.body.request_id,
     cust_fn : req.body.fname,
     cust_ln : req.body.lname,
     cust_email : req.body.email,
-    hotel_id : req.body.hotel,
     reserve_type_id : req.body.reserve_type,
-    payment_id : req.body.payment
+    payment_id : req.body.payment,
+    placed_by : req.body.role
   }
 
   conn.query('INSERT INTO dolphin_cove.reservations SET ?',data ,(err, results) => {
     if(err) {
+      console.log(err)
       req.flash('error', 'Please Try Again');
       res.redirect('/request/complete_request');
     } else {

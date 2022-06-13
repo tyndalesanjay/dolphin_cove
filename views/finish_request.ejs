@@ -33,7 +33,7 @@
     </header>
 
     <div class="container mt-3">
-      <form action="" method="post">
+      <form action="/request/complete" method="post">
         <div id="accordion">
           <div class="card" style="min-width: 86vw !important;">
             <div class="card-header">
@@ -46,7 +46,7 @@
                 <div class="d-flex">
                   <div class="me-5 mb-4" style="width: 40vw;">
                     <input type="hidden" name="request_id" value="<%= request.request_id %> ">
-                    <div class="d-flex border">
+                    <div class="d-flex ms-3">
                       <img src="https://media.discordapp.net/attachments/889362805713678407/982508307103236126/unknown.png" alt="" style="width: 15vw; height: 10vw;">
                       <div class="prog_info ms-5">
                         <ul class="list-unstyled ms-4">
@@ -121,6 +121,7 @@
               <div class="card-body">
                 <div class="container">
                   <div class="row p-2">
+                    <input type="hidden" class="form-control" value="4" name="role">
                     <input type="hidden" value="4" name="reserve_type">
                     <div class="col">
                       <div class="form-group">
@@ -140,12 +141,6 @@
                       <div class="form-group">
                         <label for="email" class="form-label">Email:</label>
                         <input type="text" class="form-control" name="email">
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="form-group">
-                        <label for="hotel" class="form-label">Hotel:</label>
-                        <input type="text" class="form-control" name="hotel">
                       </div>
                     </div>
                   </div>
@@ -174,7 +169,7 @@
                   </div>
                   <div class="form-group pay border m-3 p-5">
                     <i class="fa-solid fa-credit-card display-2"></i><br>
-                    <input type="checkbox" id="paypal" name="Payment" value="2" style="width: 0.7vw;">
+                    <input type="checkbox" id="paypal" name="payment" value="2" style="width: 0.7vw;">
                     <label for="payment_id"> Credit Card</label>
                   </div>
                 </div>
