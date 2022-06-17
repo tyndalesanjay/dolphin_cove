@@ -15,7 +15,7 @@ router.post('/slogin', function(req, res, next) {
     // conn.query('SELECT * FROM admin WHERE username = ? AND BINARY password = ?', [username, password], (err, results) => {
     conn.query('SELECT admin.*, role.role FROM admin, role WHERE username = ? AND BINARY password = ? AND admin.role_id = role.id', [username, password], (err, results) => {
         console.log(results)
-        // console.log()
+        
         if (results.length <= 0) {
             req.flash('error', 'Incorrect username or password');
             res.redirect('/login/dolphin_cove_login')
@@ -26,7 +26,8 @@ router.post('/slogin', function(req, res, next) {
             req.session.admin_ln = results[0].admin_ln,
             req.session.role_id = results[0].role_id,
             req.session.role = results[0].role
-            res.redirect('/admin');   
+            res.redirect('/admin');
+             
         }
     });
 });
@@ -67,6 +68,12 @@ router.post('/tourAuth', (req, res) => {
         }
     });
 
-});
+})
+
+// Logout Tour Admin
+router.get('/Tadminlogout', function (req, res) {
+    req.session.destroy();
+    res.redirect('/login/dolphin_cove_login');
+  });
 
 module.exports = router;

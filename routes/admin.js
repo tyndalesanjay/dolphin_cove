@@ -168,7 +168,7 @@ router.post('/add_hotel', (req, res) => {
     let data = {
         htl_name : req.body.hotel,
     };
-    if (req.session.loggedin == true && req.session.role === 'SAdmin') {
+    if (req.session.loggedin === true && req.session.role === 'SAdmin') {
         conn.query(sql, data, (err, results) => {
             if(err) {
                 req.flash('error', 'Error, Try Again');

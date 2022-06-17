@@ -2,16 +2,6 @@ var express = require('express');
 var router = express.Router();
 var  conn = require('../lib/db')
 
-// /* GET home page. */
-// router.get('/', function(req, res, next) {
-//     if(req.session.loggedin === true && req.session.role === 'TAdmin'){
-//         res.render('tadmin/index', { title: 'Express' });
-//     } else {
-//         req.flash('error', 'Not Tour Admin')
-//         res.redirect('/login/tour_login')
-//     }
-// });
-
 router.get('/', function(req, res, next) {
     if(req.session.loggedin === true && req.session.role === 'TAdmin'){
         conn.query(`SELECT  (SELECT COUNT(id) FROM tour_admin) AS admin_amount,
@@ -123,7 +113,7 @@ router.get('/view_hotels', (req, res) => {
                     my_session : req.session
                 })
             }else {
-                res.render('super_admin/admin_views/view_hotels',
+                res.render('tadmin/tadmin_views/view_hotels',
                 {
                     title: 'Hotels',
                     hotels: results,
@@ -136,4 +126,57 @@ router.get('/view_hotels', (req, res) => {
         res.redirect('/login/tour_login')
     }
 });
+
+// GET ADD Hotel
+router.get('/add_hotel', (req, res) => {
+    if(req.session.loggedin === true && req.session.role === 'TAdmin'){
+        res.render('tadmin/add/add_hotels', {
+            title: 'Add Hotel',
+            my_session : req.session
+        });
+    } else {
+        req.flash('error', 'Please Sign In')
+        res.redirect('/login/tour_login')
+    }
+});
+
+// Add Hotel
+router.post('/add_hotel', (req, res) => {
+    let sql = "INSERT INTO dolphin_cove.hotels SET ?";
+    let data = {
+        htl_name : req.body.hotel,
+    };
+    if (req.session.loggedin == true && req.session.role === 'TAdmin') {
+        conn.query(sql, data, (err, results) => {
+            if(err) {
+                req.flash('error', 'Error, Try Again');
+                res.redirect('/tour_admin/add_hotels');
+            }else {
+                req.flash('success', 'Added Successfully');
+                res.redirect('/tour_admin/add_hotels');
+            }
+        });
+    }else {
+        req.flash('error', 'Please Sign In')
+        res.redirect('/login/tour_login')
+    }
+});
+
+/* ****************************************************************************** */
+//  Make Reservation
+
+router.get('/reserves', (req, res) => {
+    if(req.session.loggedin === true && req.session.role === 'TAdmin') {
+        res.render('tadmin/add/add_reservations', 
+        { 
+            title: 'Reservations', 
+            my_session : req.session
+        });
+    }else {
+        req.flash('error', 'Please Sign In')
+        res.redirect('/login/tour_login')
+    }
+});
+
+
 module.exports = router;
