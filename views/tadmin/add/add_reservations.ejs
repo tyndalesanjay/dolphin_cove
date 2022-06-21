@@ -15,7 +15,7 @@
     <div class="container-fluid">
         <div class="row flex-nowrap">
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark position-fixed">
-                <div class="d-flex flex-column align-items-center align-items-sm-start  pt-2 text-white min-vh-100">
+                <div class="d-flex flex-column align-items-center align-items-sm-start  pt-2 p-2 text-white min-vh-100">
                     <a href="/tour_admin" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                         <h3 class="fs-5 d-none d-sm-inline">DashBoard</h3>
                     </a>
@@ -27,10 +27,17 @@
                             
                         </li>
                         <li>
-                            <a href="#" class="nav-link px-0 align-middle">
-                                <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Reservations</span>
-                            </a>
-                        </li>
+                          <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
+                              <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Reservations</span></a>
+                          <ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                              <li class="w-100">
+                                  <a href="/tour_admin/reserves" class="nav-link px-0"> <span class="d-none d-sm-inline">View</span> Reservations</a>
+                              </li>
+                              <li>
+                                  <a href="/tour_admin/add_reserves" class="nav-link px-0"> <span class="d-none d-sm-inline">Add</span> Reservations</a>
+                              </li>
+                          </ul>
+                      </li>
                         <li>
                             <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
                                 <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Staff</span></a>
@@ -60,27 +67,33 @@
                                 <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Customers</span> 
                             </a>
                         </li>
-                    </ul>
+                  </ul>
                     <hr>
                     <div class="dropdown pb-4">
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
-                            <span class="d-none d-sm-inline mx-1"><%= my_session.admin_fn %></span>
+                            <span class="d-none d-sm-inline mx-1"><%= my_session.tour_fn %></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
                             <li><a class="dropdown-item" href="#">Change Password</a></li>
-                            <li><a class="dropdown-item" href="/login/sadminlogout">Sign out</a></li>
+                            <li><a class="dropdown-item" href="/login/tadminlogout">Sign out</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="col py-3">
+            <div class="col py-3 overflow-hidden">
                 <section class="vh-100 gradient-custom">
                     <div class="container py-3" style="margin-left: 10% !important;">
+                        <% if (messages.error) { %>
+                          <p class="alert alert-danger"><%- messages.error %></p>
+                        <% } %>
+                        <% if (messages.success) { %>
+                            <p class="alert alert-success mt-4"><%- messages.success %></p>
+                        <% } %> 
                         <div class="row justify-content-center align-items-center h-100">
                             <div class="card shadow-2-strong card-registration" style="border-radius: 15px; width: 80% !important;">
                                 <div class="card-body p-4 p-md-5">
-                                    <form action="" method="post">
+                                    <form action="/tour_admin/make_reservations" method="post">
                                         <div id="accordion">
                                             <div class="card" style="min-width: 60vw !important;">
                                               <div class="card-header">
@@ -105,6 +118,7 @@
                                                         </div>
                                                         <div class="row p-3">
                                                             <div class="col-sm-6">
+                                                                <input type="hidden" value="<%= data.request_date.toISOString().slice(0, 19).replace('T', ' ').split(' ')[0]; %>" name="reqDate">
                                                                 <div class="form-group">
                                                                     <label class="form-label">Schedule</label>
                                                                     <input class="form-control" type="date" required="" name="scheduled">
@@ -123,7 +137,7 @@
                                                                 <label class="form-label">Participants</label>
                                                                 <select class="form-control d-flex" name="amount">
                                                                     <% for( let i = 1; i < 7; i++ ) { %>
-                                                                        <option value="<% i %>"><%= i %> </option>
+                                                                        <option><%= i %> </option>
                                                                     <% } %>
                                                                 </select>
                                                                 <span class="select-arrow"></span>
@@ -148,8 +162,8 @@
                                                 <div class="card-body">
                                                   <div class="container">
                                                     <div class="row p-2">
-                                                      <input type="hidden" class="form-control" value="4" name="role">
-                                                      <input type="hidden" value="4" name="reserve_type">
+                                                      <input type="hidden" class="form-control" value="<%= my_session.uid %> " name="role">
+                                                      <input type="hidden" class="form-control" value="<%= data.voucher %> " name="voucher">
                                                       <div class="col">
                                                         <div class="form-group">
                                                           <label for="fname" class="form-label">First Name:</label>
@@ -171,6 +185,19 @@
                                                         </div>
                                                       </div>
                                                     </div>
+                                                    <div class="d-flex row">
+                                                      <div class="form-group p-3 col">
+                                                          <label class="form-label">Choose the Hotel</label>
+                                                              <select class="form-control" name="hotel">
+                                                                  <option value="1">Bahia Principe Luxury Runaway Bay</option>
+                                                                  <option value="2">Bahia Principe Grand Jamaica</option>
+                                                                  <option value="3">Ocean Coral Spring</option>
+                                                                  <option value="4">Royalton White Sands Resort</option>
+                                                                  <option value="5">S Hotel Jamaica</option>
+                                                                  <option value="6">None</option>
+                                                              </select>
+                                                          <span class="select-arrow"></span>
+                                                      </div>
                                                   </div>
                                                   <div class="text-end mt-3">
                                                     <a class="collapsed btn btn-primary px-5" data-bs-toggle="collapse" href="#collapseThree">
@@ -198,6 +225,11 @@
                                                       <i class="fa-solid fa-credit-card display-2"></i><br>
                                                       <input type="checkbox" id="paypal" name="payment" value="2" style="width: 0.7vw;">
                                                       <label for="payment_id"> Credit Card</label>
+                                                    </div>
+                                                    <div class="form-group pay border m-3 p-5">
+                                                      <i class="fa-solid fa-credit-card display-2"></i><br>
+                                                      <input type="checkbox" id="paypal" name="payment" value="3" style="width: 0.7vw;">
+                                                      <label for="payment_id">Tour Credit</label>
                                                     </div>
                                                   </div>
                                                   <div class="container text-center">

@@ -313,6 +313,37 @@ router.get('/view_reservation', (req, res) => {
     }
 });
 
+/* ************************************************** */
+// View Reservations
 
-// dolphin_cove.tour_company
+router.get('/view_reserves', (req, res) => {
+    
+    let sql = `SELECT tr.id, tr.voucher, tr.cust_fn, tr.cust_ln, tr.person_amount, tr.scheduled_date, tr.scheduled_time, pg.prog_name, pg.prog_price, htl.htl_name, 
+    po.pymnt_type, ta.tour_fn, ta.tour_ln, rle.role, tc.tour_company, (pg.prog_price * tr.person_amount) AS total
+    FROM dolphin_cove.tour_reserves tr, dolphin_cove.programs pg, dolphin_cove.hotels htl, 
+    dolphin_cove.payment_options po, dolphin_cove.tour_admin ta, dolphin_cove.role rle, dolphin_cove.tour_company tc
+    WHERE tr.program_id = pg.id AND tr.hotel_id = htl.id AND tr.payment_id = po.id AND tr.placed_by = ta.id AND ta.role_id = rle.id AND ta.company_id = tc.id`
+    if (req.session.loggedin === true && req.session.role === 'SAdmin') {
+        conn.query(sql, (err, results) => {
+            if (err) {
+                res.render('super_admin/admin_views/view_treserves',
+                {
+                    title: 'Tour Reservations',
+                    reserves: '',
+                    my_session : req.session
+                })
+            }else {
+                res.render('super_admin/admin_views/view_treserves',
+                {
+                    title: 'Tour Reservations',
+                    reserves: results,
+                    my_session : req.session
+                })
+            }
+        });
+    }else {
+        req.flash('error', 'Please Sign in')
+        res.redirect('/login/dolphin_cove_login')
+    }
+});
 module.exports = router;

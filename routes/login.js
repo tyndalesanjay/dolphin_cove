@@ -64,16 +64,17 @@ router.post('/tourAuth', (req, res) => {
             req.session.company_id = results[0].company_id,
             req.session.role = results[0].role
             req.session.company = results[0].tour_company
-            res.redirect('/tour_admin');   
+            res.redirect('/tour_admin');
+            console.log(req.session.role)
         }
     });
 
 })
 
 // Logout Tour Admin
-router.get('/Tadminlogout', function (req, res) {
+router.get('/tadminlogout', function (req, res) {
     req.session.destroy();
-    res.redirect('/login/dolphin_cove_login');
+    res.redirect('/login/tour_login');
   });
 
 module.exports = router;
