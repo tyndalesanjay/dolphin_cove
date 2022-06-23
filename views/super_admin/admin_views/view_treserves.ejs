@@ -100,10 +100,10 @@
                             <th scope="col">Last Name</th>
                             <th scope="col">Scheduled Date/Time</th>
                             <th scope="col">Program</th>
-                            <th scope="col">Price</th>
+                            <th scope="col">Total</th>
                             <th scope="col">Hotel</th>
                             <th scope="col">Payment</th>
-                            <th scope="col">Vouchers</th>
+                            <th scope="col">Voucher</th>
                             <th scope="col">Actions</th>
                           </tr>
                         </thead>
@@ -115,8 +115,8 @@
                               <td scope="row"><%= reserves[i].cust_ln %></td>
                               <td scope="row"><%= reserves[i].scheduled_date.toLocaleDateString() %><br><%= reserves[i].scheduled_time %> </td>
                               <td scope="row"><%= reserves[i].prog_name %></td>
-                              <td scope="row"><%= reserves[i].htl_name %></td>
                               <td scope="row"><%= reserves[i].total.toLocaleString('en-US', {style: 'currency', currency: 'USD', }) %></td>
+                              <td scope="row"><%= reserves[i].htl_name %></td>
                               <td scope="row"><%= reserves[i].pymnt_type %></td>
                               <td scope="row"><%= reserves[i].voucher %></td>
                               

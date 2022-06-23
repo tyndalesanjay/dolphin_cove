@@ -259,5 +259,32 @@ router.post('/make_reservations', (req, res) => {
     }
 });
 
+// View Invoices 
+
+router.get('/view_invoice/:id', (req, res) => {
+    
+    if (req.session.loggedin === true && req.session.role === 'TAdmin') {
+        conn.query('SELECT ar.id, ar.voucher, ar.cust_fn, ar.cust_ln, ar.person_amount, ar.scheduled_date, ar.scheduled_time, pg.prog_name, pg.prog_price, (pg.prog_price * ar.person_amount) AS total, po.pymnt_type FROM dolphin_cove.tour_reserves ar, dolphin_cove.programs pg, dolphin_cove.payment_options po WHERE ar.payment_id = po.id AND ar.program_id = pg.id AND ar.id =' + req.params.id, (err, results) => {
+            if (err) {
+                res.render('tadmin/tadmin_views/view_invoice',
+                {
+                    title: 'Invoices',
+                    invoice: '',
+                    my_session : req.session
+                })
+            }else {
+                res.render('tadmin/tadmin_views/view_invoice',
+                {
+                    title: 'Invoices',
+                    invoice: results[0],
+                    my_session : req.session
+                })
+            }
+        });
+    }else {
+        req.flash('error', 'Please Sign in')
+        res.redirect('/login/tour_login')
+    }
+});
 
 module.exports = router;

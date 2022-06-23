@@ -68,10 +68,10 @@
                             </a>
                             <ul class="collapse nav flex-column ms-1" id="submenu4" data-bs-parent="#menu">
                                 <li class="w-100">
-                                    <a href="/tour_admin/view_tour_company" class="nav-link px-0"> <span class="d-none d-sm-inline">View</span> Tour Companies</a>
+                                    <a href="/admin/view_tour_company" class="nav-link px-0"> <span class="d-none d-sm-inline">View</span> Tour Companies</a>
                                 </li>
                                 <li>
-                                    <a href="/tour_admin/add_tour_company" class="nav-link px-0"> <span class="d-none d-sm-inline">Add</span> Tour Companies</a>
+                                    <a href="/admin/add_tour_company" class="nav-link px-0"> <span class="d-none d-sm-inline">Add</span> Tour Companies</a>
                                 </li>
                             </ul>
                         </li>
@@ -95,57 +95,75 @@
                 </div>
             </div>
             <div class="col py-3">
-                <% if (messages.error) { %>
-                    <p class="alert alert-danger"><%- messages.error %></p>
-                <% } %>
-                <div class="container">
-                    <table class="table table-striped text-center">
-                        <thead style="font-size: 1.6vw;">
-                          <tr>
-                            <th scope="col">Hotel ID</th>
-                            <th scope="col">First Name</th>
-                            <th scope="col">Last Name</th>
-                            <th scope="col">Scheduled Date/Time</th>
-                            <th scope="col">Program</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Hotel</th>
-                            <th scope="col">Payment</th>
-                            <th scope="col">Vouchers</th>
-                            <th scope="col">Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody style="font-size: 1.5vw;">
-                          <% if(reserves.length){ for(var i=0; i< reserves.length; i++) { %>
-                            <tr>
-                              <td scope="row"><%= reserves[i].id %></td>
-                              <td scope="row"><%= reserves[i].cust_fn %></td>
-                              <td scope="row"><%= reserves[i].cust_ln %></td>
-                              <td scope="row"><%= reserves[i].scheduled_date.toLocaleDateString() %><br><%= reserves[i].scheduled_time %> </td>
-                              <td scope="row"><%= reserves[i].prog_name %></td>
-                              <td scope="row"><%= reserves[i].htl_name %></td>
-                              <td scope="row"><%= reserves[i].total.toLocaleString('en-US', {style: 'currency', currency: 'USD', }) %></td>
-                              <td scope="row"><%= reserves[i].pymnt_type %></td>
-                              <td scope="row"><a href="/tour_admin/view_invoice/<%= reserves[i].id %>"><%= reserves[i].voucher %></a></td>
-                              
-                              <td scope="row">
-                                <a href="/tour_admin/edit/<%= reserves[i].id %>">
-                                  <i class="fa-solid fa-file-pen"></i>
-                                </a>
-                                <a href="/tour_admin/delete/<%= reserves[i].id %>">
-                                  <i class="fa-solid fa-trash-can"></i>
-                                </a>
-                              </td>
-                            </tr>
-                            <% } }else { %>
-                            <tr>
-                              <th scope="row" colspan="5">No Records Found</th>
-                            </tr>
-                          <% } %>
-                        </tbody>
-                    </table>
-                </div>
+                <div class="card" style="min-width: 86vw !important;">
+                      <div class="card-body">
+                        <div class="d-flex">
+                          <div class="me-5 mb-4">
+                            <div class="d-flex ms-3">
+                              <img src="https://media.discordapp.net/attachments/889362805713678407/982508307103236126/unknown.png" alt="" style="width: 15vw; height: 10vw;">
+                              <div class="prog_info ms-5">
+                                <ul class="list-unstyled ms-4">
+                                  <li class="p-1"><b><span class="small text-black-50">Activity</span></b></li>
+                                  <li class="p-1"><b><span><%= invoice.prog_name %></span></b></li> <br>
+                                  <li class="p-1"><b><span><%= invoice.scheduled_date.toLocaleDateString() %></span></b></li>
+                                  <li class="p-1"><b><span><%= invoice.scheduled_time %></span></b></li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div class="btn-group mt-4">
+                              <div class="d-flex">
+                                
+                                <% if (invoice.pymnt_type === "Tour Credit") { %>
+                                  <div><a href=""  class="btn border-2 btn-outline-primary ms-3 px-5">Pay</a></div>
+                                <% }else { %>
+                                  <div><a href=""  class="btn border-2 btn-outline-primary ms-3 px-5">Send Customer</a></div>
+                                <% } %>
+                                 
+                              </div>
+                            </div>
+                          </div>
+                          <div class="ms-5">
+                            <div class="row mb-3">
+                              <div class="col px-5">
+                                <h5>Price</h5>
+                              </div>
+                              <div class="col px-5">
+                                <h5>Quantity</h5>
+                              </div>
+                              <div class="col px-5">
+                                <h5>Total</h5>
+                              </div>
+                            </div>
+                            <div class="row mt-5">
+                              <div class="col px-5">
+                                <h6><span>Adult:</span></h6>
+                                <h5 class="text-black-50"><strike><%= invoice.prog_price.toLocaleString('en-US', {style: 'currency', currency: 'USD', }) %></strike></h5>
+                              </div>
+                              <div class="col px-5">
+                                <h5><%= invoice.person_amount %></h5>
+                              </div>
+                              <div class="col px-5">
+                                <h5><%= invoice.total.toLocaleString('en-US', {style: 'currency', currency: 'USD', }) %></h5>
+                              </div>
+                            </div>
+                            <div class="text-divider">
+                              <span></span>
+                            </div>
+                            <div class="row mt-5 ms-4">
+                              <hr>
+                              <div class="col">
+                                <h3>Total:</h3>
+                              </div>
+                              <div class="col" style="margin-left: 15vw !important;">
+                                <h3 class="text-success"><%= invoice.total.toLocaleString('en-US', {style: 'currency', currency: 'USD', }) %></h3>
+                              </div>
+                            </div>
+                        </div> 
+                      </div>
+                    </div>
+                  </div>
             </div>
         </div>
-    </div> 
+    </div>
 </body>
 </html>
