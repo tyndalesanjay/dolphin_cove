@@ -17,7 +17,7 @@
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                     <a href="/tour_admin" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                        <h3 class="fs-5 d-none d-sm-inline">DashBoard</h3>
+                        <h3 class="fs-5 d-none d-sm-inline">Tour Administration</h3>
                     </a>
                     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                         <li>
@@ -122,8 +122,8 @@
                               <td scope="row"><%= reserves[i].cust_ln %></td>
                               <td scope="row"><%= reserves[i].scheduled_date.toLocaleDateString() %><br><%= reserves[i].scheduled_time %> </td>
                               <td scope="row"><%= reserves[i].prog_name %></td>
-                              <td scope="row"><%= reserves[i].htl_name %></td>
                               <td scope="row"><%= reserves[i].total.toLocaleString('en-US', {style: 'currency', currency: 'USD', }) %></td>
+                              <td scope="row"><%= reserves[i].htl_name %></td>
                               <td scope="row"><%= reserves[i].pymnt_type %></td>
                               <td scope="row"><a href="/tour_admin/view_invoice/<%= reserves[i].id %>"><%= reserves[i].voucher %></a></td>
                               

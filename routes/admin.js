@@ -288,7 +288,11 @@ router.get('/delete/:id', (req, res) => {
 // View Reserve
 router.get('/view_reservation', (req, res) => {
     
-    let sql = 'SELECT *, ad.id AS admin_id FROM dolphin_cove.admin ad, dolphin_cove.role rle WHERE ad.role_id = rle.id ORDER BY ad.id'
+    let sql = `SELECT rs.id, rs.cust_fn, rs.cust_ln, rs.cust_email, pr.person_amount, pr.request_date, pr.scheduled_date, pr.scheduled_time, 
+    rt.type, po.pymnt_type, rle.role, pg.prog_name, pg.prog_price, (pg.prog_price * pr.person_amount) AS total
+    FROM dolphin_cove.reservations rs, dolphin_cove.program_request pr, dolphin_cove.reservation_type rt, 
+    dolphin_cove.payment_options po, dolphin_cove.role rle, dolphin_cove.programs pg WHERE rs.request_id = pr.id 
+    AND rs.reserve_type_id = rt.id AND rs.payment_id = po.id AND rs.placed_by = rle.id AND pr.program_id = pg.id ORDER BY rs.id`
     if (req.session.loggedin === true && req.session.role === 'SAdmin') {
         conn.query(sql, (err, results) => {
             if (err) {
@@ -296,7 +300,8 @@ router.get('/view_reservation', (req, res) => {
                 {
                     title: 'Reservations',
                     reserves: '',
-                    my_session : req.session
+                    my_session : req.session,
+                    
                 });
             }else {
                 res.render('super_admin/admin_views/view_reserves',
@@ -306,6 +311,7 @@ router.get('/view_reservation', (req, res) => {
                     my_session : req.session
                 });
             }
+            console.log(results)
         });
     }else {
         req.flash('error', 'Not SuperAdmin')

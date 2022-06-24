@@ -20,6 +20,7 @@ router.post('/slogin', function(req, res, next) {
             req.flash('error', 'Incorrect username or password');
             res.redirect('/login/dolphin_cove_login')
         } else {
+            req.flash('success', 'Dolphin Cove Admin Logged In');
             req.session.loggedin = true
             req.session.uid = results[0].id,
             req.session.admin_fn = results[0].admin_fn,
@@ -56,6 +57,7 @@ router.post('/tourAuth', (req, res) => {
             req.flash('error', 'Incorrect username or password');
             res.redirect('/login/tour_login')
         } else {
+            req.flash('success', 'Tour Admin Logged In');
             req.session.loggedin = true
             req.session.uid = results[0].id,
             req.session.tour_fn = results[0].tour_fn,
@@ -65,7 +67,6 @@ router.post('/tourAuth', (req, res) => {
             req.session.role = results[0].role
             req.session.company = results[0].tour_company
             res.redirect('/tour_admin');
-            console.log(req.session.role)
         }
     });
 

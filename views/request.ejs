@@ -51,6 +51,40 @@
                     </p>
                 </div>
             </div>
+            <div class="card_container">
+                <% Object.values(req).forEach((req) => { %> 
+                <div class="pcard">
+                    <div class="left">
+                        <img src="https://media.discordapp.net/attachments/889362805713678407/982508307103236126/unknown.png"
+                            alt="">
+                    </div>
+                
+                    <div class="right">
+                        <div class="program_name">
+                            <h2>
+                                <%= req.prog_name %> 
+                            </h2>
+                        </div>
+                        <br><br>
+                        <div class="program_description">
+                            <p>
+                                <%= req.prog_descript %> 
+                            </p>
+                        </div>
+                        <br><br>
+                        <div class="program_price" style="border-bottom: 1px solid red">
+                            <p><b>
+                                $<%= req.prog_price.toLocaleString('en-US', {style: 'currency', currency: 'USD', }) %> USD per person
+                            </b></p>
+                        </div>
+                        <br><br>
+                        <div class="reserve">
+                            <a href="#reservation_form">Reserve</a>
+                        </div>
+                    </div>
+                </div>
+                <% }) %> 
+            </div>
         </div>
         <div class="ms-3">
             <div class="col-md-4 col-md-pull-7 w-100">
@@ -60,7 +94,7 @@
                 <% if (messages.success) { %>
                     <p class="alert alert-success mt-4"><%- messages.success %></p>
                 <% } %> 
-                <div class="booking-form border  border-2 rounded-2" >
+                <div class="booking-form border  border-2 rounded-2" id="reservation_form">
                     <form style="height: 34vw;" class="form" action="/request/reserve" method="post">
                         <div class="text-center">
                             <h3 class="text-capitalize py-1 rounded-1" style="background-color: #00B7FF;">
@@ -112,5 +146,7 @@
             </div>
         </div>
     </div>
+    <!-- Program Cards--------------------------------- -->
+    
 </body>
 </html>
